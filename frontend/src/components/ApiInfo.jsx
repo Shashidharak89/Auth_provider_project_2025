@@ -20,7 +20,7 @@ const ApiInfo = () => {
     {
       title: 'Registration',
       method: 'POST',
-      url: `${URL}/hive/${userapi}/signup`,
+      url: `${URL}/hive/login`,
       requestExample: `{
   "userapi": "${userapi}",
   "memberName": "John Doe",
@@ -41,7 +41,7 @@ const ApiInfo = () => {
     {
       title: 'Login',
       method: 'POST',
-      url: `${URL}/hive/login`,
+      url: `${URL}/hive/${userapi}/signup`,
       requestExample: `{
   "userapi": "${userapi}",
   "memberName": "John Doe",

@@ -12,12 +12,21 @@ const User = () => {
   const [updateMessage, setUpdateMessage] = useState('');
   const [messageType, setMessageType] = useState(''); // 'success' or 'error'
   
-  const { URL,userId } = useAuth();
-  
-  
+  const { URL, userId } = useAuth();
+
+  // Set user API key from context (only once, not during every render)
   useEffect(() => {
-    fetchUserData(userapi);
-  }, [userapi]);
+    if (userId) {
+      setUserapi(userId); // Update userapi when userId changes
+    }
+  }, [userId]); // Effect depends on userId, so it triggers when userId changes
+
+  // Fetch user data when userapi (or userId) is updated
+  useEffect(() => {
+    if (userapi) {
+      fetchUserData(userapi);
+    }
+  }, [userapi]); // Fetch new data every time userapi changes
 
   const fetchUserData = async (apiKey) => {
     try {
@@ -53,10 +62,12 @@ const User = () => {
 
   const handleSubmit = async () => {
     try {
+      // Construct the updatedUser object with the "members" field
       const updatedUser = {
-        userapi,
         members
       };
+
+      // Send PUT request to update members
       await axios.put(`${URL}/hive/admin/${userapi}/update`, updatedUser);
       showMessage('Members updated successfully!', 'success');
       setIsEditing(false);
