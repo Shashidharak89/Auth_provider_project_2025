@@ -7,7 +7,7 @@ const Dummy = () => {
 
   return (
     <div>
-      <p>User: {user1}</p>
+      
       <User/>
     </div>
   );

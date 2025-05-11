@@ -5,9 +5,9 @@ import { useAuth } from '../context/AuthContext';
 
 const ApiInfo = () => {
 
-    const {URL}=useAuth();
-  const [baseUrl] = useState('http://localhost:8000');
-  const [userapi] = useState('user-api-key-1234');
+  const { URL, userId } = useAuth();
+
+  const userapi = userId;
   const [copied, setCopied] = useState(null);
 
   const handleCopy = (text, label) => {

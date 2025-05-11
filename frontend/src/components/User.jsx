@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import './styles/User.css';
-import { Pencil } from 'lucide-react';
+import { Pencil, Save, X } from 'lucide-react';
 import ApiInfo from './ApiInfo';
 import { useAuth } from '../context/AuthContext';
 
@@ -10,8 +10,11 @@ const User = () => {
   const [members, setMembers] = useState([]);
   const [isEditing, setIsEditing] = useState(false);
   const [updateMessage, setUpdateMessage] = useState('');
+  const [messageType, setMessageType] = useState(''); // 'success' or 'error'
   
- const {URL}=useAuth();
+  const { URL,userId } = useAuth();
+  
+  
   useEffect(() => {
     fetchUserData(userapi);
   }, [userapi]);
@@ -22,6 +25,7 @@ const User = () => {
       setMembers(res.data.members || []);
     } catch (err) {
       console.error('Error fetching data:', err);
+      showMessage('Failed to fetch user data', 'error');
     }
   };
 
@@ -36,6 +40,17 @@ const User = () => {
     setMembers(updatedMembers);
   };
 
+  const showMessage = (message, type) => {
+    setUpdateMessage(message);
+    setMessageType(type);
+    
+    // Auto-dismiss message after 3 seconds
+    setTimeout(() => {
+      setUpdateMessage('');
+      setMessageType('');
+    }, 3000);
+  };
+
   const handleSubmit = async () => {
     try {
       const updatedUser = {
@@ -43,64 +58,102 @@ const User = () => {
         members
       };
       await axios.put(`${URL}/hive/admin/${userapi}/update`, updatedUser);
-      setUpdateMessage('Members updated successfully!');
+      showMessage('Members updated successfully!', 'success');
       setIsEditing(false);
     } catch (err) {
       console.error('Update failed:', err);
-      setUpdateMessage('Failed to update members');
+      showMessage('Failed to update members', 'error');
     }
   };
 
+  const cancelEditing = () => {
+    // Revert changes by refetching data
+    fetchUserData(userapi);
+    setIsEditing(false);
+    setUpdateMessage('');
+  };
+
   return (
-    <div className="user-wrapper-abc321">
-        <ApiInfo/>
-      <div className="user-header-abc321">
-        <h2>User Members (API Key: {userapi})</h2>
-        <button className="user-edit-btn-abc321" onClick={handleEditToggle}>
-          <Pencil size={18} />
-        </button>
+    <div className="user-container">
+      <ApiInfo />
+      
+      <div className="user-header">
+        <h2>
+          User Members
+          <span className="user-api-key">{userapi}</span>
+        </h2>
+        
+        {isEditing ? (
+          <div style={{ display: 'flex', gap: '8px' }}>
+            <button className="user-edit-btn" onClick={cancelEditing}>
+              <X size={16} /> Cancel
+            </button>
+            <button className="user-submit-btn" onClick={handleSubmit}>
+              <Save size={16} style={{ marginRight: '4px' }} /> Save Changes
+            </button>
+          </div>
+        ) : (
+          <button className="user-edit-btn" onClick={handleEditToggle}>
+            <Pencil size={16} style={{ marginRight: '4px' }} /> Edit Members
+          </button>
+        )}
       </div>
 
-      <div className="user-list-abc321">
+      <div className="user-members-grid">
         {members.map((member, index) => (
-          <div key={member._id || index} className="user-card-abc321">
+          <div key={member._id || index} className="user-member-card">
             {isEditing ? (
               <>
-                <input
-                  type="text"
-                  value={member.name}
-                  onChange={(e) => handleChange(index, 'name', e.target.value)}
-                />
-                <input
-                  type="email"
-                  value={member.email}
-                  onChange={(e) => handleChange(index, 'email', e.target.value)}
-                />
-                <input
-                  type="text"
-                  value={member.password}
-                  onChange={(e) => handleChange(index, 'password', e.target.value)}
-                />
+                <div className="user-input-group">
+                  <label className="user-input-label">Name</label>
+                  <input
+                    type="text"
+                    value={member.name}
+                    onChange={(e) => handleChange(index, 'name', e.target.value)}
+                    placeholder="Enter name"
+                  />
+                </div>
+                
+                <div className="user-input-group">
+                  <label className="user-input-label">Email</label>
+                  <input
+                    type="email"
+                    value={member.email}
+                    onChange={(e) => handleChange(index, 'email', e.target.value)}
+                    placeholder="Enter email"
+                  />
+                </div>
+                
+                <div className="user-input-group">
+                  <label className="user-input-label">Password</label>
+                  <input
+                    type="text"
+                    value={member.password}
+                    onChange={(e) => handleChange(index, 'password', e.target.value)}
+                    placeholder="Enter password"
+                  />
+                </div>
               </>
             ) : (
               <>
                 <p><strong>Name:</strong> {member.name}</p>
                 <p><strong>Email:</strong> {member.email}</p>
                 <p><strong>Password:</strong> {member.password}</p>
-                <p><strong>Token:</strong> {member.token || 'N/A'}</p>
+                <p>
+                  <strong>Token:</strong> 
+                  <span className="user-token">{member.token || 'N/A'}</span>
+                </p>
               </>
             )}
           </div>
         ))}
       </div>
 
-      {isEditing && (
-        <div className="user-submit-section-abc321">
-          <button onClick={handleSubmit}>Submit Changes</button>
+      {updateMessage && (
+        <div className={`user-message ${messageType}`}>
+          {updateMessage}
         </div>
       )}
-
-      {updateMessage && <p className="user-msg-abc321">{updateMessage}</p>}
     </div>
   );
 };

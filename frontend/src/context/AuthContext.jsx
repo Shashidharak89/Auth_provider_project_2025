@@ -6,7 +6,7 @@ const AuthContext = createContext();
 // AuthProvider component to wrap the app
 export const AuthProvider = ({ children }) => {
   const [user1, setUser1] = useState("Vikas");
-  const[userId,setUserId]=useState();
+  const[userId,setUserId]=useState("");
   const[userEmail,setUserEmail]=useState();
   const[userName,setUserName]=useState();
   const URL=import.meta.env.VITE_URL;
