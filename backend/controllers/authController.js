@@ -12,10 +12,12 @@ exports.googleAuth = async (req, res, next) => {
         const userRes = await axios.get(
             `https://www.googleapis.com/oauth2/v1/userinfo?alt=json&access_token=${googleRes.tokens.access_token}`
         );
-        const { email, name, picture,coins } = userRes.data;
-        // console.log(userRes);
+        const { email, name, picture, coins } = userRes.data;
+        
+        // Check if the user already exists
         let user = await User.findOne({ email });
 
+        // If user doesn't exist, create a new one
         if (!user) {
             user = await User.create({
                 name,
@@ -24,20 +26,27 @@ exports.googleAuth = async (req, res, next) => {
                 coins,
             });
         }
+
+        // Get the _id of the user
         const { _id } = user;
-        const token = jwt.sign({ _id, email },
-            process.env.JWT_SECRET, {
+
+        // Create a JWT token for the user
+        const token = jwt.sign({ _id, email }, process.env.JWT_SECRET, {
             expiresIn: process.env.JWT_TIMEOUT,
         });
+
+        // Respond with token, user details, coins, and _id
         res.status(200).json({
             message: 'success',
             token,
             user,
             coins,
+            _id,  // Explicitly include _id in the response
         });
     } catch (err) {
+        // Handle any errors
         res.status(500).json({
-            message: "Internal Server Error"
-        })
+            message: "Internal Server Error",
+        });
     }
 };

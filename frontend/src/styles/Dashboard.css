@@ -1,0 +1,55 @@
+.dashboard-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  background: #f3f4f6;
+  padding: 20px;
+}
+
+.dashboard-card {
+  background-color: #ffffff;
+  padding: 30px;
+  border-radius: 12px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+  text-align: center;
+  max-width: 400px;
+  width: 100%;
+}
+
+.dashboard-avatar {
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  object-fit: cover;
+  margin-bottom: 20px;
+}
+
+.dashboard-name {
+  font-size: 24px;
+  color: #1f2937;
+  margin-bottom: 10px;
+}
+
+.dashboard-email,
+.dashboard-coins {
+  font-size: 16px;
+  color: #4b5563;
+  margin: 6px 0;
+}
+
+.dashboard-logout-btn {
+  margin-top: 20px;
+  background-color: #ef4444;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  font-weight: bold;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.dashboard-logout-btn:hover {
+  background-color: #dc2626;
+}

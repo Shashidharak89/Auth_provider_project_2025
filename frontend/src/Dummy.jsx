@@ -1,0 +1,14 @@
+import { useAuth } from "./context/AuthContext";
+
+const Dummy = () => {
+  const { user1 } = useAuth(); // ✅ Correct usage of custom hook
+  console.log(user1);
+
+  return (
+    <div>
+      <p>User: {user1}</p>
+    </div>
+  );
+};
+
+export default Dummy;
