@@ -2,7 +2,7 @@ import { useState } from "react";
 import { useGoogleLogin } from "@react-oauth/google";
 import { googleAuth } from "./api";
 import { useNavigate } from 'react-router-dom';
-import { FcGoogle } from "react-icons/fc"; // Import Google icon
+import { FcGoogle } from "react-icons/fc";
 import './styles/GoogleLogin.css';
 
 const GoogleLogin = (props) => {
@@ -14,12 +14,13 @@ const GoogleLogin = (props) => {
     const responseGoogle = async (authResult) => {
         try {
             setIsLoading(true);
+            console.log("Google Auth Result:", authResult); // For debugging
+
             if (authResult["code"]) {
                 const result = await googleAuth(authResult.code);
                 const { email, name, image, coins, _id } = result.data.user;
                 const token = result.data.token;
 
-                // Console log the user data including _id
                 console.log("User Data from Google Login:", {
                     email,
                     name,
@@ -33,10 +34,11 @@ const GoogleLogin = (props) => {
                 localStorage.setItem('user-info', JSON.stringify(obj));
                 navigate('/dashboard');
             } else {
-                throw new Error(authResult);
+                throw new Error("No authorization code received.");
             }
         } catch (e) {
             console.log('Error while Google Login...', e);
+            alert('Login failed, please try again.');
         } finally {
             setIsLoading(false);
         }
@@ -46,6 +48,7 @@ const GoogleLogin = (props) => {
         onSuccess: responseGoogle,
         onError: responseGoogle,
         flow: "auth-code",
+        redirect_uri: "https://auth-provider-project-2025.vercel.app"  // 👈 Required!
     });
 
     return (
