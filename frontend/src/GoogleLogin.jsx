@@ -4,6 +4,7 @@ import { googleAuth } from "./api";
 import { useNavigate } from 'react-router-dom';
 import { FcGoogle } from "react-icons/fc";
 import './styles/GoogleLogin.css';
+import Verify from "./Verify";
 
 const GoogleLogin = (props) => {
     const [user, setUser] = useState(null);
@@ -52,7 +53,9 @@ const GoogleLogin = (props) => {
     });
 
     return (
+        <div>
         <div className="google-login-container">
+            
             <div className="google-login-card">
                 <div className="google-login-header">
                     <h2>Welcome</h2>
@@ -76,6 +79,8 @@ const GoogleLogin = (props) => {
                 
                 {props.children}
             </div>
+        </div>
+        <Verify/>
         </div>
     );
 };
