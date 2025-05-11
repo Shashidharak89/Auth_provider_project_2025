@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import './styles/User.css';
 import { Pencil } from 'lucide-react';
+import ApiInfo from './ApiInfo';
 
 const User = () => {
   const [userapi, setUserapi] = useState('user-api-key-1234');
@@ -50,6 +51,7 @@ const User = () => {
 
   return (
     <div className="user-wrapper-abc321">
+        <ApiInfo/>
       <div className="user-header-abc321">
         <h2>User Members (API Key: {userapi})</h2>
         <button className="user-edit-btn-abc321" onClick={handleEditToggle}>
