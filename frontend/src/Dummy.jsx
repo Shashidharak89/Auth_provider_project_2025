@@ -1,3 +1,4 @@
+import User from "./components/User";
 import { useAuth } from "./context/AuthContext";
 
 const Dummy = () => {
@@ -7,6 +8,7 @@ const Dummy = () => {
   return (
     <div>
       <p>User: {user1}</p>
+      <User/>
     </div>
   );
 };

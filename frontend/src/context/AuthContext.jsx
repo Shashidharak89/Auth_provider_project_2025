@@ -9,11 +9,19 @@ export const AuthProvider = ({ children }) => {
   const[userId,setUserId]=useState();
   const[userEmail,setUserEmail]=useState();
   const[userName,setUserName]=useState();
-  
+  const URL="localhost:8000";
+
+   const[islogin,setIslogin]=useState(false);
 
 
   return (
-    <AuthContext.Provider value={{ user1 ,setUser1}}>
+    <AuthContext.Provider value={{ 
+        user1 ,setUser1,
+        userId,setUserId,
+        userEmail,setUserEmail,
+        userName,setUserName,
+        URL
+    }}>
       {children}
     </AuthContext.Provider>
   );

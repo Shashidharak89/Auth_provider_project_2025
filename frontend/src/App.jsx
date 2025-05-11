@@ -6,6 +6,7 @@ import Dashboard from './Dashboard';
 import { useState } from 'react';
 import RefrshHandler from './RefreshHandler';
 import NotFound from './NotFound';
+import Dummy from './Dummy';
 
 function App() {
 	const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -24,6 +25,7 @@ function App() {
 				<Route path="/login" element={<GoogleWrapper />} />
 				<Route path="/" element={<Navigate to="/login" />} />
 				<Route path='/dashboard' element={<PrivateRoute element={<Dashboard/>}/>}/>
+				<Route path='/user' element={<Dummy/>}/>
 				<Route path="*" element={<NotFound/>} />
 			</Routes>
 	</BrowserRouter>

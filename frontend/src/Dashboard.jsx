@@ -7,7 +7,9 @@ import { useAuth } from './context/AuthContext';
 const Dashboard = () => {
     const [userInfo, setUserInfo] = useState(null);
     const navigate = useNavigate();
-    const{user}=useAuth();
+    const{userId,setUserId,
+        userEmail,setUserEmail,
+        userName,setUserName}=useAuth();
     useEffect(() => {
         const data = localStorage.getItem('user-info');
         const userData = JSON.parse(data);
@@ -19,11 +21,17 @@ const Dashboard = () => {
         navigate('/login');
     }
 
+    setUserId(userInfo?._id);
+    setUserEmail(userInfo?.email);
+    setUserName(userInfo?.name);
+
+    console.log(userId);
+
     return (
         <>
             {console.log(userInfo)}
             <h1>Welcome {userInfo?.name}</h1>
-            
+            <h1>{userInfo?._id}</h1>
             <h3>{userInfo?.email}</h3>
             <h3>{userInfo?.coins}</h3>
             <img src={userInfo?.image} alt={userInfo?.name} />
