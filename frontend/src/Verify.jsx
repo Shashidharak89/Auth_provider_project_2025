@@ -29,6 +29,7 @@ const Verify = () => {
     return (
       <div style={{ height: '25vh', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
         <p>Loading...</p>
+        <p>Please wait while we are connecting to the server.</p>
       </div>
     );
   }
@@ -39,7 +40,8 @@ const Verify = () => {
 
   return (
     <div>
-      <h2>Verified successfully!</h2>
+        <br />
+      <h4>Server is Active now !</h4>
       {/* You can render protected content here */}
     </div>
   );

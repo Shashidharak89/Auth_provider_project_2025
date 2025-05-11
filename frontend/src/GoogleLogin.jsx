@@ -78,9 +78,10 @@ const GoogleLogin = (props) => {
                 </button>
                 
                 {props.children}
+                <Verify/>
             </div>
         </div>
-        <Verify/>
+        
         </div>
     );
 };
