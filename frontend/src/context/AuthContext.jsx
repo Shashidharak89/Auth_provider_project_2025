@@ -9,7 +9,7 @@ export const AuthProvider = ({ children }) => {
   const[userId,setUserId]=useState();
   const[userEmail,setUserEmail]=useState();
   const[userName,setUserName]=useState();
-  const URL="localhost:8000";
+  const URL=import.meta.env.VITE_URL;
 
    const[islogin,setIslogin]=useState(false);
 

@@ -3,20 +3,22 @@ import axios from 'axios';
 import './styles/User.css';
 import { Pencil } from 'lucide-react';
 import ApiInfo from './ApiInfo';
+import { useAuth } from '../context/AuthContext';
 
 const User = () => {
   const [userapi, setUserapi] = useState('user-api-key-1234');
   const [members, setMembers] = useState([]);
   const [isEditing, setIsEditing] = useState(false);
   const [updateMessage, setUpdateMessage] = useState('');
-
+  
+ const {URL}=useAuth();
   useEffect(() => {
     fetchUserData(userapi);
   }, [userapi]);
 
   const fetchUserData = async (apiKey) => {
     try {
-      const res = await axios.get(`http://localhost:8000/hive/admin/${apiKey}/viewdata`);
+      const res = await axios.get(`${URL}/hive/admin/${apiKey}/viewdata`);
       setMembers(res.data.members || []);
     } catch (err) {
       console.error('Error fetching data:', err);
@@ -40,7 +42,7 @@ const User = () => {
         userapi,
         members
       };
-      await axios.put(`http://localhost:8000/hive/admin/${userapi}/update`, updatedUser);
+      await axios.put(`${URL}/hive/admin/${userapi}/update`, updatedUser);
       setUpdateMessage('Members updated successfully!');
       setIsEditing(false);
     } catch (err) {

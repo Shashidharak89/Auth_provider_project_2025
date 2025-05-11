@@ -1,8 +1,11 @@
 import React, { useState } from 'react';
 import './styles/ApiInfo.css';
-import { Copy } from 'lucide-react';
+import { Copy, UserLock } from 'lucide-react';
+import { useAuth } from '../context/AuthContext';
 
 const ApiInfo = () => {
+
+    const {URL}=useAuth();
   const [baseUrl] = useState('http://localhost:8000');
   const [userapi] = useState('user-api-key-1234');
   const [copied, setCopied] = useState(null);
@@ -17,7 +20,7 @@ const ApiInfo = () => {
     {
       title: 'Registration',
       method: 'POST',
-      url: `${baseUrl}/hive/${userapi}/signup`,
+      url: `${URL}/hive/${userapi}/signup`,
       requestExample: `{
   "userapi": "${userapi}",
   "memberName": "John Doe",
@@ -38,7 +41,7 @@ const ApiInfo = () => {
     {
       title: 'Login',
       method: 'POST',
-      url: `${baseUrl}/hive/login`,
+      url: `${URL}/hive/login`,
       requestExample: `{
   "userapi": "${userapi}",
   "memberName": "John Doe",
@@ -59,7 +62,7 @@ const ApiInfo = () => {
     {
       title: 'Token Verification',
       method: 'GET',
-      url: `${baseUrl}/hive/:token/tokenverify`,
+      url: `${URL}/hive/:token/tokenverify`,
       requestExample: '',
       responseExample: `{
   "token": "eyJhbGciOi...",
