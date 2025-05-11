@@ -18,13 +18,13 @@ const ApiInfo = () => {
 
   const apiBlocks = [
     {
-      title: 'Registration',
+      title: 'Login',
       method: 'POST',
       url: `${URL}/hive/login`,
       requestExample: `{
   "userapi": "${userapi}",
   "memberName": "John Doe",
-  "email": "johndoe@exampl.com",
+  "email": "johndoe@example.com",
   "password": "password123"
 }`,
       responseExample: `{
@@ -39,7 +39,7 @@ const ApiInfo = () => {
 }`
     },
     {
-      title: 'Login',
+      title: 'Registration',
       method: 'POST',
       url: `${URL}/hive/${userapi}/signup`,
       requestExample: `{
