@@ -2,17 +2,21 @@ import { useState } from "react";
 import { useGoogleLogin } from "@react-oauth/google";
 import { googleAuth } from "./api";
 import { useNavigate } from 'react-router-dom';
+import { FcGoogle } from "react-icons/fc"; // Import Google icon
+import './styles/GoogleLogin.css';
 
 const GoogleLogin = (props) => {
     const [user, setUser] = useState(null);
+    const [isLoading, setIsLoading] = useState(false);
     
     const navigate = useNavigate();
 
     const responseGoogle = async (authResult) => {
         try {
+            setIsLoading(true);
             if (authResult["code"]) {
                 const result = await googleAuth(authResult.code);
-                const { email, name, image, coins, _id } = result.data.user; // include _id
+                const { email, name, image, coins, _id } = result.data.user;
                 const token = result.data.token;
 
                 // Console log the user data including _id
@@ -21,7 +25,7 @@ const GoogleLogin = (props) => {
                     name,
                     image,
                     coins,
-                    _id, // Log _id
+                    _id,
                     token
                 });
 
@@ -29,11 +33,12 @@ const GoogleLogin = (props) => {
                 localStorage.setItem('user-info', JSON.stringify(obj));
                 navigate('/dashboard');
             } else {
-                console.log(authResult);
                 throw new Error(authResult);
             }
         } catch (e) {
             console.log('Error while Google Login...', e);
+        } finally {
+            setIsLoading(false);
         }
     };
 
@@ -44,10 +49,30 @@ const GoogleLogin = (props) => {
     });
 
     return (
-        <div className="App">
-            <button onClick={googleLogin}>
-                Sign in with Google
-            </button>    
+        <div className="google-login-container">
+            <div className="google-login-card">
+                <div className="google-login-header">
+                    <h2>Welcome</h2>
+                    <p>Sign in to continue to the dashboard</p>
+                </div>
+                
+                <button 
+                    className={`google-login-button ${isLoading ? 'google-login-button-loading' : ''}`}
+                    onClick={googleLogin}
+                    disabled={isLoading}
+                >
+                    {isLoading ? (
+                        <span className="google-login-spinner"></span>
+                    ) : (
+                        <>
+                            <FcGoogle className="google-login-icon" />
+                            <span>Sign in with Google</span>
+                        </>
+                    )}
+                </button>
+                
+                {props.children}
+            </div>
         </div>
     );
 };
