@@ -19,4 +19,6 @@ router.put('/admin/:userapi/update', hiveController.updateUser);
 // Admin view user data
 router.get('/admin/:userapi/viewdata', hiveController.viewData);
 
+router.get('/admin/verify', hiveController.verify);
+
 module.exports = router;
