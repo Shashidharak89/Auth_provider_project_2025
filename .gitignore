@@ -33,3 +33,5 @@ Thumbs.db
 # Optional: skip coverage reports or test output
 **/coverage/
 **/test-results/
+
+
