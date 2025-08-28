@@ -1,4 +1,4 @@
-<div align="center" style="font-family: Arial, sans-serif;">
+<div align="left" style="font-family: Arial, sans-serif;">
 
 <h1 style="color:#4CAF50; font-size:42px;">🔐 Auth Provider Project</h1>
 
